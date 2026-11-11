@@ -34,6 +34,65 @@ export function buildAllPythonBundle(
   return lines.join("\n");
 }
 
+export function buildAlgorithmText(exp: ExperimentItem): string {
+  const header = `${exp.codeLabel}: ${exp.title} Algorithm\nAim: ${exp.aim}\n`;
+  const steps = exp.algorithm
+    .map((step, idx) => `${idx + 1}. ${step}`)
+    .join("\n");
+  return `${header}\n${steps}\n`;
+}
+
+export function buildVivaText(exp: ExperimentItem): string {
+  const header = `${exp.codeLabel}: ${exp.title} Important Viva Questions\n`;
+  const qa = exp.vivaQuestions
+    .map(
+      (item, idx) =>
+        `Q${idx + 1}. ${item.question}\nAnswer: ${item.answer}`
+    )
+    .join("\n\n");
+  return `${header}\n${qa}\n`;
+}
+
+export function buildLabRecordMarkdown(exp: ExperimentItem): string {
+  const lines: string[] = [
+    `# ${exp.codeLabel}: ${exp.title}`,
+    "",
+    `**Aim:** ${exp.aim}`,
+    "",
+    `- **Category:** ${exp.category}`,
+    `- **Dataset:** ${exp.datasetName} (${exp.datasetSetup})`,
+    `- **Runtime:** ${exp.runtime}`,
+    `- **Optimizer:** ${exp.optimizer}`,
+    `- **Loss:** ${exp.loss}`,
+    `- **Epochs / Batch Size:** ${exp.epochs} / ${exp.batchSize}`,
+    "",
+    "## Algorithm",
+    "",
+    ...exp.algorithm.map((step, idx) => `${idx + 1}. ${step}`),
+    "",
+    "## Model Topology",
+    "",
+    ...exp.layers.map((layer, idx) => `${idx + 1}. **${layer.name}** (${layer.detail})`),
+    "",
+    "## Keras 3 Code",
+    "",
+    "```python",
+    exp.code,
+    "```",
+    "",
+    "## Important Viva Questions & Answers",
+    "",
+    ...exp.vivaQuestions.flatMap((item, idx) => [
+      `### Q${idx + 1}. ${item.question}`,
+      "",
+      item.answer,
+      "",
+    ]),
+  ];
+
+  return lines.join("\n");
+}
+
 export function triggerTextDownload(
   filename: string,
   content: string,

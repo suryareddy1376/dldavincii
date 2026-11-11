@@ -69,7 +69,7 @@ export function TaglineReveal() {
   return (
     <section
       aria-label="Core value statement"
-      className="bg-[#131209] py-20 md:py-24 px-4 sm:px-6"
+      className="bg-[#131209] py-12 sm:py-16 md:py-24 px-4 sm:px-6"
     >
       <div className="mx-auto max-w-6xl rounded-3xl bg-[#181818] border border-[#272727] p-6 sm:p-12 md:p-16">
         <p className="caption-3 uppercase tracking-wider text-[#9B9B9B] mb-6">
@@ -86,7 +86,7 @@ export function TaglineReveal() {
                     ref={(el) => {
                       wordRefs.current[index] = el;
                     }}
-                    className={`inline-block mr-3 transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:opacity-100 ${
+                    className={`inline-block mr-2 sm:mr-3 transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:opacity-100 ${
                       isRevealed ? "opacity-100" : "opacity-30"
                     }`}
                   >

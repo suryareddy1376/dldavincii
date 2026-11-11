@@ -11,10 +11,12 @@ import {
 import { EXPERIMENTS } from "@/data/experiments";
 import { useCopyClipboard } from "@/lib/useCopyClipboard";
 
+import type { StudioTab } from "@/components/LabWorkbench";
+
 const FEATURED_IDS = ["ex-01", "ex-12a", "ex-14"];
 
 interface HeroPreviewProps {
-  onSelectExperiment: (id: string) => void;
+  onSelectExperiment: (id: string, tab?: StudioTab) => void;
 }
 
 export function HeroPreview({ onSelectExperiment }: HeroPreviewProps) {
@@ -29,9 +31,9 @@ export function HeroPreview({ onSelectExperiment }: HeroPreviewProps) {
 
   return (
     <div className="rounded-3xl bg-[#181818] border border-[#272727] p-3">
-      <div className="rounded-xl bg-[#1F1F1F] border border-[#313131] p-4 sm:p-6">
+      <div className="rounded-xl bg-[#1F1F1F] border border-[#313131] p-3 sm:p-6">
         {/* Top bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center justify-between gap-3 mb-4">
           <div className="flex flex-wrap items-center gap-2">
             {featured.map((exp) => {
               const selected = exp.id === current.id;
@@ -97,7 +99,7 @@ export function HeroPreview({ onSelectExperiment }: HeroPreviewProps) {
 
         {/* Title & Architecture pipeline */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
-          <div className="lg:col-span-5 flex flex-col justify-between gap-4 rounded-lg bg-[#181818] border border-[#272727] p-4">
+          <div className="lg:col-span-5 min-w-0 flex flex-col justify-between gap-4 rounded-lg bg-[#181818] border border-[#272727] p-3 sm:p-4">
             <div>
               <p className="caption-4 font-mono text-[#9B9B9B] mb-1">
                 {current.category}
@@ -128,23 +130,27 @@ export function HeroPreview({ onSelectExperiment }: HeroPreviewProps) {
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={() => {
-                onSelectExperiment(current.id);
-                document
-                  .getElementById("workbench")
-                  ?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="button-sm w-full rounded-lg bg-[#272727] border border-[#313131] text-[#FFFFFF] py-2 px-3 hover:bg-[#313131] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
-            >
-              Inspect full {current.lineCount} line cell
-            </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => onSelectExperiment(current.id, "code")}
+                className="button-xsm w-full rounded-lg bg-[#272727] border border-[#313131] text-[#FFFFFF] py-2 px-3 hover:bg-[#313131] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+              >
+                Full {current.lineCount} line cell
+              </button>
+              <button
+                type="button"
+                onClick={() => onSelectExperiment(current.id, "viva")}
+                className="button-xsm w-full rounded-lg bg-[#1F1F1F] border border-[#272727] text-[#D4D4D4] py-2 px-3 hover:bg-[#272727] hover:text-[#FFFFFF] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+              >
+                {current.algorithm.length} steps · {current.vivaQuestions.length} viva Qs
+              </button>
+            </div>
           </div>
 
-          <div className="lg:col-span-7 rounded-lg bg-[#000000] border border-[#272727] p-4 overflow-hidden flex flex-col justify-between">
-            <div className="flex items-center justify-between gap-2 mb-3">
-              <span className="caption-4 font-mono text-[#9B9B9B]">
+          <div className="lg:col-span-7 min-w-0 rounded-lg bg-[#000000] border border-[#272727] p-3 sm:p-4 overflow-hidden flex flex-col justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <span className="caption-4 font-mono text-[#9B9B9B] truncate">
                 keras_cell_{current.id.replace("-", "_")}.py
               </span>
               <span className="caption-5 font-mono text-[#9B9B9B]">

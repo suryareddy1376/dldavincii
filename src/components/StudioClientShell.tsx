@@ -9,11 +9,11 @@ import {
   Code,
   Cpu,
   DownloadSimple,
-  FlowArrow,
-  Lightning,
+  GraduationCap,
+  ListNumbers,
 } from "@phosphor-icons/react";
 import { HeroPreview } from "@/components/HeroPreview";
-import { LabWorkbench } from "@/components/LabWorkbench";
+import { LabWorkbench, type StudioTab } from "@/components/LabWorkbench";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { TaglineReveal } from "@/components/TaglineReveal";
 import { CatalogTable } from "@/components/CatalogTable";
@@ -27,22 +27,22 @@ const BENEFITS = [
       "Every import, random seed, callback, and matplotlib plot matches the source notebook without hidden edits.",
   },
   {
-    icon: Lightning,
-    title: "Clear GPU workload flags",
+    icon: ListNumbers,
+    title: "Stepwise lab algorithms",
     detail:
-      "Ex 06, Ex 07, Ex 12b, and Ex 14 carry GPU runtime badges so you switch Colab hardware before hitting run.",
+      "Every experiment breaks down preprocessing, model layers, compile settings, and evaluation into copyable steps.",
   },
   {
-    icon: FlowArrow,
-    title: "Readable layer pipelines",
+    icon: GraduationCap,
+    title: "High yield viva Q&A",
     detail:
-      "Inspect input tensor shapes, pooling strides, dropout rates, and stacked recurrent units before copying a cell.",
+      "Practice the 64 most important viva questions across all 16 experiments with self quiz hide and reveal controls.",
   },
   {
     icon: DownloadSimple,
-    title: "Single click cell or bundle export",
+    title: "Single click cell or study export",
     detail:
-      "Copy any individual cell, grab the Colab pip setup command, or download the complete .ipynb notebook file.",
+      "Copy Python code, algorithms, or viva Q&A, or export a complete Markdown study sheet for any experiment.",
   },
 ];
 
@@ -69,9 +69,11 @@ const STEPS = [
 
 export function StudioClientShell() {
   const [selectedId, setSelectedId] = useState<string>("ex-01");
+  const [activeTab, setActiveTab] = useState<StudioTab>("code");
 
-  const jumpToWorkbench = (id: string) => {
+  const jumpToWorkbench = (id: string, tab: StudioTab = "code") => {
     setSelectedId(id);
+    setActiveTab(tab);
     document.getElementById("workbench")?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -81,7 +83,7 @@ export function StudioClientShell() {
       <section
         id="hero"
         aria-label="Hero overview"
-        className="pt-28 md:pt-32 pb-12 md:pb-16 px-4 sm:px-6"
+        className="pt-24 sm:pt-28 md:pt-32 pb-12 md:pb-16 px-4 sm:px-6"
       >
         <div className="mx-auto max-w-6xl flex flex-col gap-10">
           <div className="flex flex-col items-start gap-6">
@@ -104,14 +106,14 @@ export function StudioClientShell() {
 
             <p className="body-3 max-w-[680px] text-[#9B9B9B]">
               Every TensorFlow and Keras 3 deep learning experiment from single
-              perceptrons to stacked GRU forecasting, organized into one fast
-              workbench built for instant copy paste.
+              perceptrons to stacked GRU forecasting, paired with stepwise
+              algorithms and important viva questions in one studio.
             </p>
 
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 w-full sm:w-auto">
               <a
                 href="#workbench"
-                className="button-md inline-flex items-center justify-center gap-2 rounded-lg bg-[#FFFFFF] text-[#000000] px-3 py-2 hover:bg-[#D4D4D4] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+                className="button-md w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-[#FFFFFF] text-[#000000] px-3 py-2 hover:bg-[#D4D4D4] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
               >
                 <span>Browse lab experiments</span>
                 <ArrowRight size={18} weight="bold" aria-hidden="true" />
@@ -124,7 +126,7 @@ export function StudioClientShell() {
                   className="text-[#34D399]"
                   aria-hidden="true"
                 />
-                <span>16 standalone cells · 12 CPU · 4 GPU workloads</span>
+                <span>16 cells · 16 algorithms · 64 viva Q&amp;As</span>
               </p>
             </div>
           </div>
@@ -135,7 +137,12 @@ export function StudioClientShell() {
 
       {/* Core Workbench */}
       <RevealOnScroll>
-        <LabWorkbench selectedId={selectedId} onSelectId={setSelectedId} />
+        <LabWorkbench
+          selectedId={selectedId}
+          onSelectId={setSelectedId}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
       </RevealOnScroll>
 
       {/* Benefits Section */}
@@ -240,11 +247,13 @@ export function StudioClientShell() {
         className="py-12 md:py-16 px-4 sm:px-6"
       >
         <RevealOnScroll>
-          <div className="mx-auto max-w-6xl rounded-3xl bg-[#181818] border border-[#272727] p-8 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="max-w-[680px]">
-              <div className="inline-flex items-center gap-2 caption-3 text-[#D4D4D4] mb-3">
-                <BookOpen size={16} aria-hidden="true" />
-                <span>DL_Lab_All_Experiments_Keras.ipynb</span>
+          <div className="mx-auto max-w-6xl rounded-3xl bg-[#181818] border border-[#272727] p-6 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="max-w-[680px] min-w-0">
+              <div className="inline-flex items-center gap-2 caption-3 text-[#D4D4D4] mb-3 max-w-full">
+                <BookOpen size={16} className="shrink-0" aria-hidden="true" />
+                <span className="break-all sm:break-normal">
+                  DL_Lab_All_Experiments_Keras.ipynb
+                </span>
               </div>
               <h2 className="heading-4 text-[#FFFFFF] mb-2">
                 Pick any experiment and start training
@@ -257,7 +266,7 @@ export function StudioClientShell() {
 
             <Link
               href="#workbench"
-              className="button-md shrink-0 inline-flex items-center justify-center gap-2 rounded-lg bg-[#FFFFFF] text-[#000000] px-3 py-2 hover:bg-[#D4D4D4] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+              className="button-md w-full md:w-auto shrink-0 inline-flex items-center justify-center gap-2 rounded-lg bg-[#FFFFFF] text-[#000000] px-3 py-2 hover:bg-[#D4D4D4] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
             >
               <span>Browse lab experiments</span>
               <ArrowRight size={18} weight="bold" aria-hidden="true" />

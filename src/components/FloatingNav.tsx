@@ -56,7 +56,7 @@ export function FloatingNav() {
       <header className="fixed top-4 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
         <nav
           aria-label="Primary navigation"
-          className="pointer-events-auto flex items-center gap-2 sm:gap-4 rounded-2xl bg-[#181818]/85 backdrop-blur-md border border-[#272727] p-2 shadow-lg max-w-full"
+          className="pointer-events-auto flex items-center justify-between sm:justify-start gap-2 sm:gap-4 w-full sm:w-auto rounded-2xl bg-[#181818]/85 backdrop-blur-md border border-[#272727] p-2 shadow-lg max-w-full"
         >
           <Link
             href="/"
@@ -165,7 +165,7 @@ export function FloatingNav() {
             : "opacity-0 pointer-events-none"
         }`}
       >
-        <div className="flex h-full flex-col justify-between px-6 pt-24 pb-8">
+        <div className="flex h-full flex-col justify-between px-4 sm:px-6 pt-24 pb-8 overflow-y-auto">
           <ul className="flex flex-col gap-3">
             {NAV_ITEMS.map((item, idx) => {
               const delayMs = Math.min(idx * 60, 400);

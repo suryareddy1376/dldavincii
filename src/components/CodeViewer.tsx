@@ -74,15 +74,15 @@ export function CodeViewer({ experiment }: CodeViewerProps) {
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 min-w-0">
       {/* Action strip */}
-      <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-[#1F1F1F] border border-[#272727] p-2">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center justify-between gap-2 rounded-xl bg-[#1F1F1F] border border-[#272727] p-2">
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => setShowLineNumbers((v) => !v)}
             aria-pressed={showLineNumbers}
-            className={`button-xsm inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40 ${
+            className={`button-xsm inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40 ${
               showLineNumbers
                 ? "bg-[#272727] border-[#313131] text-[#FFFFFF]"
                 : "bg-[#181818] border-[#272727] text-[#9B9B9B] hover:text-[#FFFFFF]"
@@ -95,17 +95,17 @@ export function CodeViewer({ experiment }: CodeViewerProps) {
           <button
             type="button"
             onClick={handleSelectAll}
-            className="button-xsm rounded-lg bg-[#181818] border border-[#272727] text-[#D4D4D4] px-2.5 py-1.5 hover:bg-[#272727] hover:text-[#FFFFFF] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+            className="button-xsm rounded-lg bg-[#181818] border border-[#272727] text-[#D4D4D4] px-3 py-1.5 hover:bg-[#272727] hover:text-[#FFFFFF] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
           >
             Select all
           </button>
 
-          <span className="caption-5 font-mono text-[#9B9B9B] px-2">
+          <span className="caption-5 font-mono text-[#9B9B9B] px-1">
             {experiment.lineCount} lines · {experiment.code.length} chars
           </span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <button
             type="button"
             onClick={() =>
@@ -114,7 +114,7 @@ export function CodeViewer({ experiment }: CodeViewerProps) {
                 buildSinglePythonFile(experiment)
               )
             }
-            className="button-xsm inline-flex items-center gap-1.5 rounded-lg bg-[#181818] border border-[#272727] text-[#D4D4D4] px-3 py-1.5 hover:bg-[#272727] hover:text-[#FFFFFF] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+            className="button-xsm flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#181818] border border-[#272727] text-[#D4D4D4] px-3 py-2 hover:bg-[#272727] hover:text-[#FFFFFF] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
           >
             <DownloadSimple size={14} aria-hidden="true" />
             <span>Download .py</span>
@@ -123,7 +123,7 @@ export function CodeViewer({ experiment }: CodeViewerProps) {
           <button
             type="button"
             onClick={() => copyText(experiment.code, `cell-${experiment.id}`)}
-            className="button-sm inline-flex items-center gap-1.5 rounded-lg bg-[#FFFFFF] text-[#000000] px-3 py-2 hover:bg-[#D4D4D4] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+            className="button-sm flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#FFFFFF] text-[#000000] px-3 py-2 hover:bg-[#D4D4D4] active:scale-[0.98] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
           >
             {isCopied ? (
               <Check size={16} weight="bold" aria-hidden="true" />
@@ -181,10 +181,10 @@ export function CodeViewer({ experiment }: CodeViewerProps) {
       )}
 
       {/* Verbatim syntax highlighted Python block */}
-      <div className="rounded-2xl bg-[#000000] border border-[#272727] p-2">
+      <div className="rounded-2xl bg-[#000000] border border-[#272727] p-2 min-w-0">
         <pre
           ref={codeBlockRef}
-          className="lab-scroll max-h-[540px] overflow-auto rounded-lg bg-[#000000] p-3 text-xs sm:text-sm leading-6 font-mono"
+          className="lab-scroll max-h-[440px] sm:max-h-[540px] overflow-auto rounded-lg bg-[#000000] p-2 sm:p-3 text-xs sm:text-sm leading-6 font-mono"
         >
           <code>
             {lines.map((line, idx) => {
@@ -197,14 +197,14 @@ export function CodeViewer({ experiment }: CodeViewerProps) {
                   ref={(el) => {
                     lineRefs.current[lineNumber] = el;
                   }}
-                  className={`flex gap-3 rounded px-1.5 ${
+                  className={`flex gap-2 sm:gap-3 rounded px-1.5 ${
                     isHighlighted ? "bg-[#272727]" : "hover:bg-[#181818]"
                   }`}
                 >
                   {showLineNumbers && (
                     <span
                       aria-hidden="true"
-                      className="select-none w-8 shrink-0 text-right text-[#737373]"
+                      className="select-none w-6 sm:w-8 shrink-0 text-right text-[#737373]"
                     >
                       {lineNumber}
                     </span>

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "DL Davincii | Keras 3 Deep Learning Lab Code Studio",
   description:
-    "Browse, inspect, and copy all sixteen self contained TensorFlow and Keras 3 deep learning lab experiments from single perceptrons to stacked GRU forecasting.",
+    "Browse, inspect, and copy all sixteen self contained TensorFlow and Keras 3 deep learning lab experiments with stepwise algorithms and important viva Q&As.",
   openGraph: {
     title: "DL Davincii | Keras 3 Deep Learning Lab Code Studio",
     description:

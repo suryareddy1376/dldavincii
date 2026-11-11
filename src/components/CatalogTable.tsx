@@ -3,10 +3,11 @@
 import { Check, Copy, Cpu, Lightning } from "@phosphor-icons/react";
 import { EXPERIMENTS } from "@/data/experiments";
 import { useCopyClipboard } from "@/lib/useCopyClipboard";
+import type { StudioTab } from "@/components/LabWorkbench";
 
 interface CatalogTableProps {
   selectedId: string;
-  onJumpToExperiment: (id: string) => void;
+  onJumpToExperiment: (id: string, tab?: StudioTab) => void;
 }
 
 export function CatalogTable({
@@ -45,7 +46,118 @@ export function CatalogTable({
         )}
 
         <div className="rounded-3xl bg-[#181818] border border-[#272727] p-3">
-          <div className="lab-scroll overflow-x-auto rounded-xl bg-[#1F1F1F] border border-[#272727] p-2">
+          {/* Mobile stacked cards */}
+          <div className="md:hidden flex flex-col gap-3">
+            {EXPERIMENTS.map((exp) => {
+              const isActive = exp.id === selectedId;
+              const isCopied = copiedKey === `row-${exp.id}`;
+              return (
+                <article
+                  key={exp.id}
+                  className={`rounded-xl border p-3 flex flex-col gap-3 transition-colors duration-300 ${
+                    isActive
+                      ? "bg-[#272727] border-[#313131]"
+                      : "bg-[#1F1F1F] border-[#272727]"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="caption-3 font-mono text-[#FFFFFF]">
+                      {exp.codeLabel}
+                    </span>
+                    <span
+                      className={`caption-4 inline-flex items-center gap-1.5 rounded-lg border px-2 py-1 ${
+                        exp.gpuRequired
+                          ? "bg-[#131209] border-[#313131] text-[#FBBF24]"
+                          : "bg-[#181818] border-[#272727] text-[#34D399]"
+                      }`}
+                    >
+                      {exp.gpuRequired ? (
+                        <Lightning
+                          size={12}
+                          weight="fill"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <Cpu size={12} aria-hidden="true" />
+                      )}
+                      <span>{exp.gpuRequired ? "GPU" : "CPU"}</span>
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => onJumpToExperiment(exp.id)}
+                    className="text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40 rounded"
+                  >
+                    <span className="block title-3 text-[#FFFFFF]">
+                      {exp.title}
+                    </span>
+                    <span className="block caption-4 text-[#9B9B9B]">
+                      {exp.modelType}
+                    </span>
+                  </button>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="rounded-lg bg-[#181818] border border-[#272727] p-2 min-w-0">
+                      <span className="block caption-5 text-[#9B9B9B]">
+                        Dataset
+                      </span>
+                      <span className="block caption-3 text-[#D4D4D4] truncate">
+                        {exp.datasetName}
+                      </span>
+                    </div>
+                    <div className="rounded-lg bg-[#181818] border border-[#272727] p-2 min-w-0">
+                      <span className="block caption-5 text-[#9B9B9B]">
+                        Optimizer
+                      </span>
+                      <span className="block caption-4 font-mono text-[#D4D4D4] truncate">
+                        {exp.optimizer}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => onJumpToExperiment(exp.id, "algorithm")}
+                      className="button-xsm inline-flex items-center justify-center rounded-lg bg-[#181818] border border-[#272727] text-[#D4D4D4] px-3 py-2 hover:bg-[#313131] hover:text-[#FFFFFF] active:scale-[0.98] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+                    >
+                      Algo
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onJumpToExperiment(exp.id, "viva")}
+                      className="button-xsm inline-flex items-center justify-center rounded-lg bg-[#181818] border border-[#272727] text-[#FBBF24] px-3 py-2 hover:bg-[#313131] active:scale-[0.98] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+                    >
+                      Viva ({exp.vivaQuestions.length})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onJumpToExperiment(exp.id, "code")}
+                      className="button-xsm inline-flex items-center justify-center rounded-lg bg-[#181818] border border-[#313131] text-[#FFFFFF] px-3 py-2 hover:bg-[#313131] active:scale-[0.98] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+                    >
+                      Code
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => copyText(exp.code, `row-${exp.id}`)}
+                      className="button-xsm inline-flex items-center justify-center gap-1 rounded-lg bg-[#FFFFFF] text-[#000000] px-3 py-2 hover:bg-[#D4D4D4] active:scale-[0.98] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+                    >
+                      {isCopied ? (
+                        <Check size={12} weight="bold" aria-hidden="true" />
+                      ) : (
+                        <Copy size={12} weight="bold" aria-hidden="true" />
+                      )}
+                      <span>{isCopied ? "Copied" : "Copy"}</span>
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          {/* Desktop matrix table */}
+          <div className="hidden md:block lab-scroll overflow-x-auto rounded-xl bg-[#1F1F1F] border border-[#272727] p-2">
             <table className="w-full min-w-[760px] text-left border-separate border-spacing-y-1">
               <thead>
                 <tr>
@@ -127,10 +239,26 @@ export function CatalogTable({
                         <div className="inline-flex items-center gap-2">
                           <button
                             type="button"
-                            onClick={() => onJumpToExperiment(exp.id)}
+                            onClick={() =>
+                              onJumpToExperiment(exp.id, "algorithm")
+                            }
+                            className="button-xsm rounded-lg bg-[#1F1F1F] border border-[#272727] text-[#D4D4D4] px-2.5 py-1.5 hover:bg-[#313131] hover:text-[#FFFFFF] active:scale-[0.98] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+                          >
+                            Algo
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => onJumpToExperiment(exp.id, "viva")}
+                            className="button-xsm rounded-lg bg-[#1F1F1F] border border-[#272727] text-[#FBBF24] px-2.5 py-1.5 hover:bg-[#313131] active:scale-[0.98] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
+                          >
+                            Viva ({exp.vivaQuestions.length})
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => onJumpToExperiment(exp.id, "code")}
                             className="button-xsm rounded-lg bg-[#1F1F1F] border border-[#313131] text-[#FFFFFF] px-2.5 py-1.5 hover:bg-[#313131] active:scale-[0.98] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/40"
                           >
-                            Open
+                            Code
                           </button>
                           <button
                             type="button"
