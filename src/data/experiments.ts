@@ -89,13 +89,14 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Plots sepal length vs petal length scatter alongside loss and validation accuracy."
     ],
     "algorithm": [
-      "Set the Keras random seed to 2017 for deterministic weight initialization and data splitting.",
-      "Load the Iris dataset and keep only samples belonging to classes 0 (Setosa) and 1 (Versicolor), cast to float32.",
-      "Plot sepal length against petal length to verify linear separability between the two classes.",
-      "Split the 100 samples into 80% training and 20% validation sets, then fit StandardScaler on training features only.",
-      "Define a Sequential model with Input(shape=(4,)) followed by a single Dense(1, activation='sigmoid') neuron.",
-      "Compile using SGD(learning_rate=0.1), binary_crossentropy loss, and BinaryAccuracy metric.",
-      "Train for 15 epochs with batch size 8, inspect learned weights and bias, and plot loss and validation accuracy."
+      "Import required libraries.",
+      "Load the Iris dataset and select classes 0 and 1.",
+      "Plot sepal length against petal length for both classes.",
+      "Split data into training and validation sets.",
+      "Standardize features using StandardScaler.",
+      "Build a single neuron perceptron with sigmoid activation.",
+      "Compile using SGD and train the model.",
+      "Evaluate validation accuracy and plot loss curves."
     ],
     "vivaQuestions": [
       {
@@ -153,13 +154,14 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Plots training and validation curves across 100 epochs with a 20% validation split."
     ],
     "algorithm": [
-      "Set the Keras random seed to 42 for reproducible splits and weight initialization.",
-      "Load the scikit learn Diabetes dataset and extract column index 2 (BMI) as a single feature input.",
-      "Binarize the continuous disease progression target by assigning 1 where target > 140 and 0 otherwise.",
-      "Split 80% training and 20% test data, then fit StandardScaler on training BMI values only.",
-      "Build a Sequential perceptron with Input(shape=(1,)) and Dense(1, activation='sigmoid').",
-      "Compile with Adam(learning_rate=0.05), binary_crossentropy loss, and BinaryAccuracy metric.",
-      "Train for 100 epochs (batch size 32, validation_split=0.2), threshold test probabilities at 0.5, and report accuracy, precision, recall, F1, and confusion matrix."
+      "Import required libraries.",
+      "Load the Diabetes dataset and select the BMI feature.",
+      "Binarize the disease progression target around threshold 140.",
+      "Split data into training and testing sets.",
+      "Scale the BMI feature using StandardScaler.",
+      "Build a single neuron perceptron with sigmoid activation.",
+      "Compile with Adam optimizer and train the model.",
+      "Predict test classes and compute classification metrics."
     ],
     "vivaQuestions": [
       {
@@ -222,13 +224,13 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Evaluates a 200x200 meshgrid to plot the nonlinear decision boundary."
     ],
     "algorithm": [
-      "Set seed 2017 and generate 400 concentric samples using make_circles(factor=0.3, noise=0.05).",
-      "Plot outer and inner circle points, shift coordinates by +1 into positive space, and split 80% training and 20% validation.",
-      "Build a Sequential MLP: Input(shape=(2,)) -> Dense(50, sigmoid, use_bias=False) -> Dense(1, sigmoid, use_bias=False) initialized from Normal(0, 1).",
-      "Compile using SGD(learning_rate=1.0), mean squared error loss, and BinaryAccuracy metric.",
-      "Create a custom Keras Callback printing validation loss and accuracy every 100 epochs.",
-      "Train for 1000 epochs with batch_size=len(X_train) to perform full batch gradient descent.",
-      "Predict across a 200 by 200 coordinate meshgrid to render the circular decision boundary alongside validation points."
+      "Import required libraries.",
+      "Generate the Two Circles dataset using make_circles.",
+      "Shift feature coordinates and split into training and validation sets.",
+      "Build a neural network with 50 sigmoid hidden units.",
+      "Compile with SGD optimizer and mean squared error loss.",
+      "Train the model using full batch gradient descent.",
+      "Evaluate validation accuracy and plot the decision boundary."
     ],
     "vivaQuestions": [
       {
@@ -296,13 +298,14 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Saves best checkpoint to multi_layer_best_model.keras and evaluates rounded accuracy."
     ],
     "algorithm": [
-      "Set seed 2017 and load red Wine Quality CSV (11 chemical features and target quality).",
-      "Split 80/20 into training and test sets and compute the baseline MSE from always predicting the training mean quality.",
-      "Standardize training and test features using StandardScaler fitted on training samples only.",
-      "Build a Sequential regression network: Input(shape=(11,)) -> Dense(200, relu) -> Dense(25, relu) -> Dense(1, linear).",
-      "Compile with Adam optimizer, MSE loss, and MAE metric.",
-      "Attach EarlyStopping(monitor='val_loss', patience=30, restore_best_weights=True) and ModelCheckpoint saving the best .keras weights.",
-      "Train up to 500 epochs (batch size 64, 20% validation split) and evaluate test MSE, MAE, and rounded quality accuracy."
+      "Import required libraries.",
+      "Load the red Wine Quality dataset.",
+      "Split data into training and testing sets.",
+      "Standardize input features using StandardScaler.",
+      "Build a sequential neural network with 200, 25, and 1 units.",
+      "Compile with Adam optimizer and mean squared error loss.",
+      "Train with EarlyStopping and ModelCheckpoint callbacks.",
+      "Evaluate test MSE, MAE, and rounded prediction accuracy."
     ],
     "vivaQuestions": [
       {
@@ -375,12 +378,13 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Bars maximum weight and bias magnitude across every dense layer."
     ],
     "algorithm": [
-      "Set seed 2022 and plot sigmoid, tanh, and ReLU curves across inputs in [-6, 6].",
-      "Load MNIST, reshape 28 by 28 images into 784 pixel vectors normalized to [0, 1], and one hot encode labels into 10 classes.",
-      "Define an 8 layer builder: five Dense(700), one Dense(350), one Dense(100) using a chosen activation, plus Dense(10, softmax).",
-      "Compile both sigmoid and ReLU models identically with plain SGD and categorical_crossentropy.",
-      "Use a BatchLoss callback inside on_train_batch_end to log training loss after every mini batch across 10 epochs (batch size 256).",
-      "Evaluate validation accuracy, plot per batch loss curves, and compare maximum weight and bias magnitudes per layer."
+      "Import required libraries.",
+      "Plot sigmoid, tanh, and ReLU activation curves.",
+      "Load and normalize the MNIST dataset into 784 pixel vectors.",
+      "One hot encode the 10 digit class labels.",
+      "Build deep 8 layer models using sigmoid and ReLU activations.",
+      "Compile both models with SGD and train for 10 epochs.",
+      "Evaluate validation accuracy and compare batch loss and weight magnitudes."
     ],
     "vivaQuestions": [
       {
@@ -453,13 +457,13 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Collects y_true and y_pred in one deterministic loop for classification_report."
     ],
     "algorithm": [
-      "Verify DATASET_PATH exists and load 224 by 224 RGB vehicle images into 80% training and 20% validation sets with seed 42 and one hot labels.",
-      "Prefetch batches for throughput and display a 3 by 3 sample grid with class names.",
-      "Load pretrained ImageNet VGG16 with include_top=False and freeze all convolutional layers (base.trainable = False).",
-      "Chain Functional layers: Input -> RandomFlip, RandomRotation(0.1), RandomZoom(0.2), RandomTranslation(0.1) -> vgg16.preprocess_input -> VGG16 base(training=False).",
-      "Attach Flatten -> Dense(256, relu) -> Dropout(0.3) -> Dense(NUM_CLASSES, softmax) classifier head.",
-      "Compile with RMSprop(learning_rate=1e-4) and categorical_crossentropy, then train for 15 epochs.",
-      "Collect aligned y_true and y_pred in a single validation loop to print classification_report, confusion matrix, and sample predictions."
+      "Import required libraries.",
+      "Load vehicle images into training and validation datasets.",
+      "Build data augmentation layers for image transformations.",
+      "Load pretrained VGG16 base and freeze its weights.",
+      "Add Flatten, Dense 256, Dropout, and Softmax classifier layers.",
+      "Compile with RMSprop optimizer and train for 15 epochs.",
+      "Evaluate validation accuracy, classification report, and confusion matrix."
     ],
     "vivaQuestions": [
       {
@@ -537,13 +541,13 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Decays learning rate exponentially per epoch from 1e-3 at rate 0.95."
     ],
     "algorithm": [
-      "Read trainLabels.csv, filter rows to retinal .jpeg files present on disk, and strip _left/_right suffixes to derive PatientID.",
-      "Split unique PatientID values 75% training and 25% validation so both eyes of a patient remain together.",
-      "Build a tf.data pipeline that reads JPEGs, resizes to 128 by 128, normalizes pixels by 255.0, one hot encodes 5 severity levels, caches, shuffles training data, and prefetches.",
-      "Define a Sequential CNN starting with RandomRotation, RandomTranslation, RandomZoom, and RandomFlip layers.",
-      "Stack three convolutional blocks (32, 64, 64 filters; paired 3x3 Conv2D layers, MaxPooling2D(2), Dropout(0.25)) followed by Flatten, Dense(512, relu), Dropout(0.5), and Dense(5, softmax).",
-      "Compile using Adam with ExponentialDecay(1e-3, decay_rate=0.95) and categorical_crossentropy.",
-      "Train for 15 epochs, save dr_model.keras, plot loss and accuracy, and print the 5 class classification_report."
+      "Import required libraries.",
+      "Load trainLabels.csv and filter available retinal images.",
+      "Split unique patient IDs into training and validation sets.",
+      "Build a tf.data pipeline to resize and normalize images.",
+      "Construct a CNN with augmentation and three convolution pooling blocks.",
+      "Compile using Adam with ExponentialDecay learning rate schedule.",
+      "Train the model, save dr_model.keras, and print the classification report."
     ],
     "vivaQuestions": [
       {
@@ -611,13 +615,13 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Ranks all runs by test MSE and displays validation loss curves side by side."
     ],
     "algorithm": [
-      "Set seed 2022, load Wine Quality Red CSV, and split into 64% training, 16% validation, and 20% test subsets.",
-      "Fit StandardScaler on training features only, transform all splits to float32, and assert zero NaN or inf values.",
-      "Define create_model returning a 5 layer dense regression architecture: 100 -> 50 -> 25 -> 10 -> 1 linear.",
-      "Map eight optimizer names (SGD, SGD 1e-4, Adam, Adadelta, RMSprop, RMSprop 1e-4, Nadam, Adamax) to factory lambdas.",
-      "Inside a loop, reset seed 2022, instantiate a fresh model and fresh optimizer, and fit up to 300 epochs (batch size 128) with EarlyStopping(patience=30, restore_best_weights=True).",
-      "Record best epoch, best validation MSE, test MSE, and rounded test accuracy in a DataFrame sorted by lowest test MSE.",
-      "Plot all eight validation MSE trajectories together to visualize convergence speed and stability."
+      "Import required libraries.",
+      "Load the red Wine Quality dataset.",
+      "Split data into training, validation, and testing sets.",
+      "Standardize input features using StandardScaler.",
+      "Define a 5 layer dense regression model builder.",
+      "Train separate models with eight optimizers using EarlyStopping.",
+      "Evaluate test MSE and plot validation loss curves."
     ],
     "vivaQuestions": [
       {
@@ -690,12 +694,13 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Plots training and validation loss curves side by side on a shared y axis."
     ],
     "algorithm": [
-      "Load hourly Bike Sharing records (hour.csv) by extracting the UCI zip archive or uploading via Colab.",
-      "One hot encode season, weathersit, mnth, hr, and weekday; drop leaky/redundant columns (casual, registered, atemp, workingday, instant, dteday); standardize cnt, temp, hum, and windspeed.",
-      "Slice chronologically: last 31 days (744 rows) as test, previous 30 days as validation, and remaining earlier hours as training.",
-      "Define a model builder (250 -> 150 -> 50 -> 25 -> 1 linear) supporting optional kernel_regularizer=l2(0.005) on the first and last hidden dense layers.",
-      "Compile with SGD and MSE loss, then train both unregularized and L2=0.005 models for 2000 epochs (batch size 1024) under seed 2022.",
-      "Print minimum and final validation losses alongside epoch counts and plot both pairs of training/validation curves on shared axes."
+      "Import required libraries.",
+      "Load and preprocess the hourly Bike Sharing dataset.",
+      "Split data chronologically into training, validation, and testing sets.",
+      "Build a 5 layer dense model with optional L2 weight penalty.",
+      "Compile with SGD optimizer and mean squared error loss.",
+      "Train baseline and L2 regularized models for 2000 epochs.",
+      "Compare minimum validation losses and plot learning curves."
     ],
     "vivaQuestions": [
       {
@@ -758,11 +763,13 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Verifies dropout applies only during training while inference stays deterministic."
     ],
     "algorithm": [
-      "Load and preprocess hourly Bike Sharing data identically to Ex 09 using chronological train, validation, and 31 day test splits.",
-      "Define a Sequential builder (250 -> 150 -> 50 -> 25 -> 1 linear) that inserts Dropout(rate) after every ReLU hidden layer when rate > 0.",
-      "Compile with SGD optimizer and MSE loss.",
-      "Reset seed 2022 and train both baseline (dropout=0.0) and regularized (dropout=0.20) models for 2000 epochs with batch size 1024.",
-      "Compare minimum validation loss and final held out test MSE across both runs and plot curves on shared y axes."
+      "Import required libraries.",
+      "Load and preprocess the hourly Bike Sharing dataset.",
+      "Split data chronologically into training, validation, and testing sets.",
+      "Build a 5 layer dense network with Dropout after hidden layers.",
+      "Compile with SGD optimizer and mean squared error loss.",
+      "Train models with dropout rates 0.0 and 0.20 for 2000 epochs.",
+      "Evaluate test MSE and plot training against validation loss."
     ],
     "vivaQuestions": [
       {
@@ -830,12 +837,13 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Verifies output batch tensor shape and normalized pixel value range."
     ],
     "algorithm": [
-      "Load tf_flowers from tensorflow_datasets split into 80% training, 10% validation, and 10% test subsets with supervised labels.",
-      "Construct a deterministic resize_and_rescale Sequential block using Resizing(180, 180) and Rescaling(1/255).",
-      "Construct a stochastic data_augmentation Sequential block using RandomFlip('horizontal_and_vertical') and RandomRotation(0.4).",
-      "Write a custom random_invert_img function using tf.cond to invert pixel intensities (255 - x) with probability 0.5.",
-      "Compare deterministic tf.image ops (flip, grayscale, saturation, brightness, central crop, rot90) with seeded stateless_random_* transforms.",
-      "Build a prepare(ds, augment=True) pipeline that resizes/rescales, batches, applies random augmentation only to training data, and prefetches with AUTOTUNE."
+      "Import required libraries.",
+      "Load the TF Flowers dataset splits using tensorflow_datasets.",
+      "Build resizing and rescaling layers for image normalization.",
+      "Apply random flip and rotation augmentation layers.",
+      "Implement custom random color inversion and tf.image transformations.",
+      "Create an input pipeline that augments only training batches.",
+      "Prefetch prepared batches with AUTOTUNE for training."
     ],
     "vivaQuestions": [
       {
@@ -918,11 +926,13 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Displays 10 test digits annotated with predicted vs ground truth labels."
     ],
     "algorithm": [
-      "Set seed 42, load MNIST, normalize pixels to [0, 1], expand the channel axis to shape (28, 28, 1), and assign 5000 training samples for validation.",
-      "Define LeNet 5: C1 Conv2D(6, 5x5, tanh, same) -> S2 AveragePooling2D(2) -> C3 Conv2D(16, 5x5, tanh, valid) -> S4 AveragePooling2D(2).",
-      "Add C5 Conv2D(120, 5x5, tanh, valid), Flatten to a 120 element vector, connect F6 Dense(84, tanh), and end with Dense(10, softmax).",
-      "Compile with Adam optimizer, sparse_categorical_crossentropy loss, and accuracy metric.",
-      "Train for 5 epochs, evaluate test accuracy, plot learning curves, and display 10 predicted vs ground truth digits."
+      "Import required libraries.",
+      "Load and normalize MNIST images to shape 28 by 28 by 1.",
+      "Hold out 5000 training images for validation.",
+      "Build the LeNet 5 model with tanh convolutions and pooling.",
+      "Compile with Adam optimizer and sparse categorical crossentropy.",
+      "Train for 5 epochs on training and validation sets.",
+      "Evaluate test accuracy and display sample digit predictions."
     ],
     "vivaQuestions": [
       {
@@ -1000,12 +1010,13 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Rescales standardized tensors back to [0, 1] when previewing 8 test predictions."
     ],
     "algorithm": [
-      "Set seed 42, load CIFAR 10, and split 5000 training images aside for validation.",
-      "Create a tf.data pipeline that applies per_image_standardization, resizes each image to (227, 227), shuffles training data, and batches at 32 with drop_remainder=True and prefetch.",
-      "Build AlexNet: 5 convolutional blocks (96 11x11 stride 4, 256 5x5, 384 3x3, 384 3x3, 256 3x3) each with ReLU and BatchNormalization, plus three 3x3 stride 2 MaxPool2D layers.",
-      "Flatten and append two Dense(4096, relu) + Dropout(0.5) layers followed by Dense(10, softmax).",
-      "Compile with SGD(learning_rate=0.001, momentum=0.9) and sparse_categorical_crossentropy, then train for 5 epochs logging metrics to TensorBoard.",
-      "Evaluate test accuracy, plot curves, and min max normalize 8 standardized test images for visual inspection."
+      "Import required libraries.",
+      "Load CIFAR 10 and split 5000 training samples for validation.",
+      "Standardize, resize to 227 by 227, and batch images via tf.data.",
+      "Build AlexNet with 5 convolutional blocks, BatchNormalization, and 3 dense layers.",
+      "Compile with SGD momentum optimizer and sparse categorical crossentropy.",
+      "Train for 5 epochs with TensorBoard logging.",
+      "Evaluate test accuracy and visualize sample predictions."
     ],
     "vivaQuestions": [
       {
@@ -1073,11 +1084,13 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Plots accuracy, loss, and 10 digit predictions alongside ground truth."
     ],
     "algorithm": [
-      "Set seed 42, load MNIST, and scale pixels to [0, 1] while preserving shape (28, 28) as 28 sequential time steps of 28 features.",
-      "Build a Sequential RNN: Input(shape=(28, 28)) -> SimpleRNN(128, return_sequences=True) -> Dropout(0.2) -> SimpleRNN(128) -> Dropout(0.1).",
-      "Append Dense(32, relu) -> Dropout(0.2) -> Dense(10, softmax) classification head.",
-      "Compile with Adam(learning_rate=1e-3, clipnorm=1.0) and sparse_categorical_crossentropy.",
-      "Train for 5 epochs with batch size 128 using test data for validation, then plot curves and 10 sample digit predictions."
+      "Import required libraries.",
+      "Load MNIST and normalize images as 28 by 28 sequences.",
+      "Build a stacked SimpleRNN model with 128 units and Dropout.",
+      "Add Dense 32 ReLU and Dense 10 Softmax output layers.",
+      "Compile using Adam with gradient clipping and sparse categorical crossentropy.",
+      "Train for 5 epochs using batch size 128.",
+      "Evaluate test accuracy and plot loss curves and predictions."
     ],
     "vivaQuestions": [
       {
@@ -1140,12 +1153,14 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Inverts MinMaxScaler before computing Train and Test RMSE in passenger units."
     ],
     "algorithm": [
-      "Set seed 7 and load monthly passenger counts from airline-passengers.csv as float32 values.",
-      "Normalize values to [0, 1] with MinMaxScaler and split chronologically into 67% training and 33% testing.",
-      "Convert both series into supervised (X, y) pairs with look_back=1 and reshape X into [samples, time steps, features].",
-      "Build a Sequential model: Input(shape=(1, 1)) -> LSTM(4) -> Dense(1).",
-      "Compile with Adam and mean_squared_error loss, then train for 100 epochs with batch size 1.",
-      "Invert MinMaxScaler on predictions and ground truth targets, compute train and test RMSE, and plot actual vs predicted series."
+      "Import required libraries.",
+      "Load the AirPassengers dataset.",
+      "Normalize the data using MinMaxScaler.",
+      "Split data into training and testing sets.",
+      "Create sequences using previous time steps.",
+      "Build an LSTM model with 4 units.",
+      "Compile and train the model.",
+      "Predict passenger numbers and calculate RMSE."
     ],
     "vivaQuestions": [
       {
@@ -1213,12 +1228,13 @@ export const EXPERIMENTS: ExperimentItem[] = [
       "Prints both RMSE scores and overlays real, LSTM, and GRU trajectories."
     ],
     "algorithm": [
-      "Set seed 42 and load IBM daily High stock prices from 2006 to 2018 via yfinance or IBM.csv upload, partitioning up to 2016 as train and 2017 as test.",
-      "Fit MinMaxScaler(0, 1) on the training series only and construct 60 trading day sliding windows of shape (samples, 60, 1).",
-      "For test windows, prepend the last 60 days of 2016 before transforming and slicing windows across 2017.",
-      "Define a 4 layer stacked builder: three recurrent layers of 50 units (return_sequences=True) plus a fourth of 50 units (return_sequences=False), each with Dropout(0.2), followed by Dense(1).",
-      "Train both stacked(LSTM) and stacked(GRU) identically with RMSprop, MSE loss, 20 epochs, and batch size 32.",
-      "Invert MinMaxScaler on test predictions, compute RMSE for both models, and overlay real, LSTM, and GRU price curves."
+      "Import required libraries.",
+      "Load IBM daily High stock prices from 2006 to 2018.",
+      "Normalize prices with MinMaxScaler and build 60 day sequences.",
+      "Split data into training through 2016 and testing in 2017.",
+      "Build 4 layer stacked LSTM and GRU models with Dropout 0.2.",
+      "Compile and train both models with RMSprop and MSE loss.",
+      "Invert scaling on predictions, calculate RMSE, and plot comparisons."
     ],
     "vivaQuestions": [
       {
